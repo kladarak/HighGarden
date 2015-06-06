@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Source Files\Debug">
+      <UniqueIdentifier>{6566f398-feae-4892-a892-69af72de2997}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Containers">
+      <UniqueIdentifier>{a43bd826-e4fd-45f6-886a-2fb30a542eb4}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\Core\Debug\Assert.h">
+      <Filter>Source Files\Debug</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Core\Containers\BitField.h">
+      <Filter>Source Files\Containers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Core\Containers\String.h">
+      <Filter>Source Files\Containers</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\Core\Containers\BitField.cpp">
+      <Filter>Source Files\Containers</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

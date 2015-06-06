@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Source Files\World">
+      <UniqueIdentifier>{5f19766f-6381-48b0-88b7-491ea998fc40}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Components">
+      <UniqueIdentifier>{6371d0a6-00b5-4916-8c80-145d2a1fb24b}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\EntityComponentSystem\World\ComponentMemPool.h">
+      <Filter>Source Files\World</Filter>
+    </ClInclude>
+    <ClInclude Include="src\EntityComponentSystem\World\ComponentsStorage.h">
+      <Filter>Source Files\World</Filter>
+    </ClInclude>
+    <ClInclude Include="src\EntityComponentSystem\World\ComponentTypeID.h">
+      <Filter>Source Files\World</Filter>
+    </ClInclude>
+    <ClInclude Include="src\EntityComponentSystem\World\Entity.h">
+      <Filter>Source Files\World</Filter>
+    </ClInclude>
+    <ClInclude Include="src\EntityComponentSystem\World\EntityBuilder.h">
+      <Filter>Source Files\World</Filter>
+    </ClInclude>
+    <ClInclude Include="src\EntityComponentSystem\World\EntityFilter.h">
+      <Filter>Source Files\World</Filter>
+    </ClInclude>
+    <ClInclude Include="src\EntityComponentSystem\World\EntityTypedef.h">
+      <Filter>Source Files\World</Filter>
+    </ClInclude>
+    <ClInclude Include="src\EntityComponentSystem\World\FixedBlockSizeMemPool.h">
+      <Filter>Source Files\World</Filter>
+    </ClInclude>
+    <ClInclude Include="src\EntityComponentSystem\World\System.h">
+      <Filter>Source Files\World</Filter>
+    </ClInclude>
+    <ClInclude Include="src\EntityComponentSystem\World\SystemsUpdater.h">
+      <Filter>Source Files\World</Filter>
+    </ClInclude>
+    <ClInclude Include="src\EntityComponentSystem\World\World.h">
+      <Filter>Source Files\World</Filter>
+    </ClInclude>
+    <ClInclude Include="src\EntityComponentSystem\Components\PositionComponent.h">
+      <Filter>Source Files\Components</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\EntityComponentSystem\World\ComponentsStorage.cpp">
+      <Filter>Source Files\World</Filter>
+    </ClCompile>
+    <ClCompile Include="src\EntityComponentSystem\World\EntityFilter.cpp">
+      <Filter>Source Files\World</Filter>
+    </ClCompile>
+    <ClCompile Include="src\EntityComponentSystem\World\FixedBlockSizeMemPool.cpp">
+      <Filter>Source Files\World</Filter>
+    </ClCompile>
+    <ClCompile Include="src\EntityComponentSystem\World\SystemsUpdater.cpp">
+      <Filter>Source Files\World</Filter>
+    </ClCompile>
+    <ClCompile Include="src\EntityComponentSystem\World\World.cpp">
+      <Filter>Source Files\World</Filter>
+    </ClCompile>
+    <ClCompile Include="src\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
