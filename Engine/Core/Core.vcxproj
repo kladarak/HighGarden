@@ -14,9 +14,14 @@
     <ClInclude Include="src\Core\Containers\BitField.h" />
     <ClInclude Include="src\Core\Containers\String.h" />
     <ClInclude Include="src\Core\Debug\Assert.h" />
+    <ClInclude Include="src\Core\Messaging\MessageBroadcaster.h" />
+    <ClInclude Include="src\Core\Messaging\MessageBroadcastTests.h" />
+    <ClInclude Include="src\Core\RTTI\TypeID.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Core\Containers\BitField.cpp" />
+    <ClCompile Include="src\Core\Messaging\MessageBroadcaster.cpp" />
+    <ClCompile Include="src\Core\Messaging\MessageBroadcastTests.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{A487EDB4-9AED-45A2-925E-E96F22E4FACB}</ProjectGuid>

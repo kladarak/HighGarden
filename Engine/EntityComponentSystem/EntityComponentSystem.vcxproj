@@ -12,6 +12,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\EntityComponentSystem\Components\PositionComponent.h" />
+    <ClInclude Include="src\EntityComponentSystem\Tests\EntityComponentSystemTests.h" />
     <ClInclude Include="src\EntityComponentSystem\World\ComponentMemPool.h" />
     <ClInclude Include="src\EntityComponentSystem\World\ComponentsStorage.h" />
     <ClInclude Include="src\EntityComponentSystem\World\ComponentTypeID.h" />
@@ -25,6 +26,7 @@
     <ClInclude Include="src\EntityComponentSystem\World\World.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\EntityComponentSystem\Tests\EntityComponentSystemTests.cpp" />
     <ClCompile Include="src\EntityComponentSystem\World\ComponentsStorage.cpp" />
     <ClCompile Include="src\EntityComponentSystem\World\EntityFilter.cpp" />
     <ClCompile Include="src\EntityComponentSystem\World\FixedBlockSizeMemPool.cpp" />

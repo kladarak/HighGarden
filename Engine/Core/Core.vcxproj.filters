@@ -11,6 +11,12 @@
     <Filter Include="Source Files\Containers">
       <UniqueIdentifier>{a43bd826-e4fd-45f6-886a-2fb30a542eb4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Messaging">
+      <UniqueIdentifier>{0c1d6c39-e63f-49b4-81e6-adc13c05df4c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\RTTI">
+      <UniqueIdentifier>{6da5fe99-bb1d-4016-9dbc-3ba420a3382b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Core\Debug\Assert.h">
@@ -22,10 +28,25 @@
     <ClInclude Include="src\Core\Containers\String.h">
       <Filter>Source Files\Containers</Filter>
     </ClInclude>
+    <ClInclude Include="src\Core\Messaging\MessageBroadcaster.h">
+      <Filter>Source Files\Messaging</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Core\RTTI\TypeID.h">
+      <Filter>Source Files\RTTI</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Core\Messaging\MessageBroadcastTests.h">
+      <Filter>Source Files\Messaging</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Core\Containers\BitField.cpp">
       <Filter>Source Files\Containers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Core\Messaging\MessageBroadcaster.cpp">
+      <Filter>Source Files\Messaging</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Core\Messaging\MessageBroadcastTests.cpp">
+      <Filter>Source Files\Messaging</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

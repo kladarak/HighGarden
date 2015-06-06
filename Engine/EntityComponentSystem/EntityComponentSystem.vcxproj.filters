@@ -11,6 +11,9 @@
     <Filter Include="Source Files\Components">
       <UniqueIdentifier>{6371d0a6-00b5-4916-8c80-145d2a1fb24b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Tests">
+      <UniqueIdentifier>{343be9b1-aff4-4291-bf25-e3e83c28ddc8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\EntityComponentSystem\World\ComponentMemPool.h">
@@ -49,6 +52,9 @@
     <ClInclude Include="src\EntityComponentSystem\Components\PositionComponent.h">
       <Filter>Source Files\Components</Filter>
     </ClInclude>
+    <ClInclude Include="src\EntityComponentSystem\Tests\EntityComponentSystemTests.h">
+      <Filter>Source Files\Tests</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\EntityComponentSystem\World\ComponentsStorage.cpp">
@@ -68,6 +74,9 @@
     </ClCompile>
     <ClCompile Include="src\main.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\EntityComponentSystem\Tests\EntityComponentSystemTests.cpp">
+      <Filter>Source Files\Tests</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
