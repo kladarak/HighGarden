@@ -16,7 +16,6 @@
     <ClInclude Include="src\EntityComponentSystem\World\ComponentMemPool.h" />
     <ClInclude Include="src\EntityComponentSystem\World\ComponentsStorage.h" />
     <ClInclude Include="src\EntityComponentSystem\World\ComponentTypeID.h" />
-    <ClInclude Include="src\EntityComponentSystem\World\Entity.h" />
     <ClInclude Include="src\EntityComponentSystem\World\EntityBuilder.h" />
     <ClInclude Include="src\EntityComponentSystem\World\EntityFilter.h" />
     <ClInclude Include="src\EntityComponentSystem\World\EntityTypedef.h" />
@@ -31,6 +30,9 @@
     <ClCompile Include="src\EntityComponentSystem\World\EntityFilter.cpp" />
     <ClCompile Include="src\EntityComponentSystem\World\SystemsUpdater.cpp" />
     <ClCompile Include="src\EntityComponentSystem\World\World.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\EntityComponentSystem\World\World.inl" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{1DBCBE04-ECD5-41AD-9E1E-54EEDB2D6AC8}</ProjectGuid>

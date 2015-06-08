@@ -3,6 +3,23 @@
 #include "Assert.h"
 
 
+bool Entity::IsAlive() const
+{
+	return mWorld->IsEntityAlive(mID);
+}
+
+void Entity::Kill()
+{
+	mWorld->DestroyEntity(mID);
+}
+	
+bool Entity::HasComponent(ComponentTypeID inTypeID) const
+{
+	return mWorld->HasComponent(mID, inTypeID);
+}
+
+//-----------------------------------------------------------------
+
 World::World()
 	: mNextID(0)
 {
@@ -10,10 +27,10 @@ World::World()
 
 World::~World()
 {
-	ForEachEntity( [&] (EntityID inID) { DestroyEntity( inID ); } );
+	ForEachEntity( [&] (Entity inEntity) { DestroyEntity( inEntity.GetID() ); } );
 }
 
-EntityID World::CreateEntity()
+Entity World::CreateEntity()
 {
 	EntityID id = 0;
 
@@ -31,7 +48,7 @@ EntityID World::CreateEntity()
 	assert( !IsEntityAlive(id) );
 	mUsedIDs.Set(id);
 
-	return id;
+	return Entity(id, this);
 }
 
 bool World::IsEntityAlive(EntityID inID) const

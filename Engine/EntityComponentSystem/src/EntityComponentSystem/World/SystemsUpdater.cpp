@@ -1,7 +1,6 @@
 #include "SystemsUpdater.h"
 
 #include "World.h"
-#include "Entity.h"
 #include "System.h"
 
 
@@ -17,13 +16,11 @@ void SystemsUpdater::Update(World* inWorld, float inFrameTime)
 
 	for (auto& systemInfo : mSystems)
 	{
-		inWorld->ForEachEntity( [&] (EntityID inEntityID)
+		inWorld->ForEachEntity( [&] (Entity inEntityID)
 		{
-			Entity entity(inEntityID, inWorld);
-
-			if (systemInfo.mFilter.PassesFilter(entity))
+			if (systemInfo.mFilter.PassesFilter(inEntityID))
 			{
-				entities.push_back(entity);
+				entities.push_back(inEntityID);
 			}
 		} );
 		

@@ -4,9 +4,43 @@
 
 #include <Core/Containers/BitField.h>
 
-#include "ComponentTypeID.h"
 #include "EntityTypedef.h"
+#include "ComponentTypeID.h"
 #include "ComponentsStorage.h"
+
+class World;
+
+class Entity
+{
+public:
+	Entity(EntityID inID, World* inWorld) : mID(inID), mWorld(inWorld) { }
+
+	EntityID	GetID() const		{ return mID; }
+	World*		GetWorld() const	{ return mWorld; }
+	bool		IsAlive() const;
+	void		Kill();
+
+	template<typename T, typename ...Args>
+	T*			AddComponent(Args&&... inArgs);
+
+	template<typename T>
+	void		RemoveComponent();
+	
+	template<typename T>
+	bool		HasComponent() const;
+	bool		HasComponent(ComponentTypeID inTypeID) const;
+
+	template<typename T>
+	T*			GetComponent() const;
+
+	bool		operator==(const Entity& inRHS) const { return mID == inRHS.mID && mWorld == inRHS.mWorld; }
+	bool		operator!=(const Entity& inRHS) const { return !(*this == inRHS); }
+
+private:
+	EntityID	mID;
+	World*		mWorld;
+};
+
 
 class World
 {
@@ -14,12 +48,12 @@ public:
 	World();
 	~World();
 
-	EntityID				CreateEntity();
+	Entity					CreateEntity();
 	bool					IsEntityAlive(EntityID inID) const;
 	void					DestroyEntity(EntityID inID);
 
 	template<typename T, typename ...Args>
-	void					AddComponent(EntityID inID, Args&&... inArgs);
+	T*						AddComponent(EntityID inID, Args&&... inArgs);
 
 	template<typename T>
 	void					RemoveComponent(EntityID inID);
@@ -32,7 +66,7 @@ public:
 	T*						GetComponent(EntityID inID) const;
 
 	template<typename TFunctor>
-	void					ForEachEntity(const TFunctor& inFunctor) const;
+	void					ForEachEntity(const TFunctor& inFunctor);
 
 private:
 	EntityID				mNextID;
@@ -42,39 +76,4 @@ private:
 	ComponentsStorage		mComponentStorage;
 };
 
-
-template<typename T, typename ...Args>
-void World::AddComponent(EntityID inID, Args&&... inArgs)
-{
-	mComponentStorage.Alloc<T>(inID, std::forward<Args>(inArgs)...);
-}
-
-template<typename T>
-void World::RemoveComponent(EntityID inID)
-{
-	mComponentStorage.Dealloc<T>(inID);
-}
-
-template<typename T>
-bool World::HasComponent(EntityID inID) const
-{
-	return HasComponent(inID, gGetComponentTypeID<T>());
-}
-
-template<typename T>
-T* World::GetComponent(EntityID inID) const
-{
-	return mComponentStorage.Get<T>(inID);
-}
-
-template<typename TFunctor>
-void World::ForEachEntity(const TFunctor& inFunctor) const
-{
-	for (size_t i = 0; i < mUsedIDs.NumBits(); ++i)
-	{
-		if (mUsedIDs.Get(i))
-		{
-			inFunctor( EntityID(i) );
-		}
-	}
-}
+#include "World.inl"

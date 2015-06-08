@@ -25,9 +25,6 @@
     <ClInclude Include="src\EntityComponentSystem\World\ComponentTypeID.h">
       <Filter>Source Files\World</Filter>
     </ClInclude>
-    <ClInclude Include="src\EntityComponentSystem\World\Entity.h">
-      <Filter>Source Files\World</Filter>
-    </ClInclude>
     <ClInclude Include="src\EntityComponentSystem\World\EntityBuilder.h">
       <Filter>Source Files\World</Filter>
     </ClInclude>
@@ -72,5 +69,10 @@
     <ClCompile Include="src\EntityComponentSystem\Tests\EntityComponentSystemTests.cpp">
       <Filter>Source Files\Tests</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\EntityComponentSystem\World\World.inl">
+      <Filter>Source Files\World</Filter>
+    </None>
   </ItemGroup>
 </Project>
