@@ -10,6 +10,12 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "EntityComponentSystem", "En
 		{A487EDB4-9AED-45A2-925E-E96F22E4FACB} = {A487EDB4-9AED-45A2-925E-E96F22E4FACB}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HighGardenTests", "HighGardenTests\HighGardenTests.vcxproj", "{4736179A-8F55-4BC0-B407-94F8BF8CB241}"
+	ProjectSection(ProjectDependencies) = postProject
+		{1DBCBE04-ECD5-41AD-9E1E-54EEDB2D6AC8} = {1DBCBE04-ECD5-41AD-9E1E-54EEDB2D6AC8}
+		{A487EDB4-9AED-45A2-925E-E96F22E4FACB} = {A487EDB4-9AED-45A2-925E-E96F22E4FACB}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -24,6 +30,10 @@ Global
 		{1DBCBE04-ECD5-41AD-9E1E-54EEDB2D6AC8}.Debug|Win32.Build.0 = Debug|Win32
 		{1DBCBE04-ECD5-41AD-9E1E-54EEDB2D6AC8}.Release|Win32.ActiveCfg = Release|Win32
 		{1DBCBE04-ECD5-41AD-9E1E-54EEDB2D6AC8}.Release|Win32.Build.0 = Release|Win32
+		{4736179A-8F55-4BC0-B407-94F8BF8CB241}.Debug|Win32.ActiveCfg = Debug|Win32
+		{4736179A-8F55-4BC0-B407-94F8BF8CB241}.Debug|Win32.Build.0 = Debug|Win32
+		{4736179A-8F55-4BC0-B407-94F8BF8CB241}.Release|Win32.ActiveCfg = Release|Win32
+		{4736179A-8F55-4BC0-B407-94F8BF8CB241}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

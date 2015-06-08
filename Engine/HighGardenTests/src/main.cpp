@@ -1,7 +1,5 @@
-#include <cstdio>
-
-#include <Core/Messaging/MessageBroadcastTests.h>
 #include <EntityComponentSystem/Tests/EntityComponentSystemTests.h>
+#include <Core/Messaging/MessageBroadcastTests.h>
 
 int main()
 {

@@ -63,9 +63,6 @@
     <ClCompile Include="src\EntityComponentSystem\World\EntityFilter.cpp">
       <Filter>Source Files\World</Filter>
     </ClCompile>
-    <ClCompile Include="src\EntityComponentSystem\World\FixedBlockSizeMemPool.cpp">
-      <Filter>Source Files\World</Filter>
-    </ClCompile>
     <ClCompile Include="src\EntityComponentSystem\World\SystemsUpdater.cpp">
       <Filter>Source Files\World</Filter>
     </ClCompile>

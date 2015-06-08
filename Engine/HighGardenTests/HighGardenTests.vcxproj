@@ -10,36 +10,14 @@
       <Platform>Win32</Platform>
     </ProjectConfiguration>
   </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="src\EntityComponentSystem\Components\PositionComponent.h" />
-    <ClInclude Include="src\EntityComponentSystem\Tests\EntityComponentSystemTests.h" />
-    <ClInclude Include="src\EntityComponentSystem\World\ComponentMemPool.h" />
-    <ClInclude Include="src\EntityComponentSystem\World\ComponentsStorage.h" />
-    <ClInclude Include="src\EntityComponentSystem\World\ComponentTypeID.h" />
-    <ClInclude Include="src\EntityComponentSystem\World\Entity.h" />
-    <ClInclude Include="src\EntityComponentSystem\World\EntityBuilder.h" />
-    <ClInclude Include="src\EntityComponentSystem\World\EntityFilter.h" />
-    <ClInclude Include="src\EntityComponentSystem\World\EntityTypedef.h" />
-    <ClInclude Include="src\EntityComponentSystem\World\FixedBlockSizeMemPool.h" />
-    <ClInclude Include="src\EntityComponentSystem\World\System.h" />
-    <ClInclude Include="src\EntityComponentSystem\World\SystemsUpdater.h" />
-    <ClInclude Include="src\EntityComponentSystem\World\World.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="src\EntityComponentSystem\Tests\EntityComponentSystemTests.cpp" />
-    <ClCompile Include="src\EntityComponentSystem\World\ComponentsStorage.cpp" />
-    <ClCompile Include="src\EntityComponentSystem\World\EntityFilter.cpp" />
-    <ClCompile Include="src\EntityComponentSystem\World\SystemsUpdater.cpp" />
-    <ClCompile Include="src\EntityComponentSystem\World\World.cpp" />
-  </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{1DBCBE04-ECD5-41AD-9E1E-54EEDB2D6AC8}</ProjectGuid>
+    <ProjectGuid>{4736179A-8F55-4BC0-B407-94F8BF8CB241}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>EntityComponentSystem</RootNamespace>
+    <RootNamespace>HighGardenTests</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v120</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
@@ -63,7 +41,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(ProjectDir)src\;$(ProjectDir)..\Core\src\;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)src\;$(ProjectDir)..\Core\src\;$(ProjectDir)..\EntityComponentSystem\src\;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)Debug\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -80,7 +58,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>Core.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Core.lib;EntityComponentSystem.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -100,6 +78,9 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="src\main.cpp" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
