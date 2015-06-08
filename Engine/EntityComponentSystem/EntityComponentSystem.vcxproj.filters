@@ -72,9 +72,6 @@
     <ClCompile Include="src\EntityComponentSystem\World\World.cpp">
       <Filter>Source Files\World</Filter>
     </ClCompile>
-    <ClCompile Include="src\main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\EntityComponentSystem\Tests\EntityComponentSystemTests.cpp">
       <Filter>Source Files\Tests</Filter>
     </ClCompile>

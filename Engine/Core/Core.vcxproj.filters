@@ -42,9 +42,6 @@
     <ClCompile Include="src\Core\Containers\BitField.cpp">
       <Filter>Source Files\Containers</Filter>
     </ClCompile>
-    <ClCompile Include="src\Core\Messaging\MessageBroadcaster.cpp">
-      <Filter>Source Files\Messaging</Filter>
-    </ClCompile>
     <ClCompile Include="src\Core\Messaging\MessageBroadcastTests.cpp">
       <Filter>Source Files\Messaging</Filter>
     </ClCompile>

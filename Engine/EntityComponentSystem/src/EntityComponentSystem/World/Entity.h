@@ -8,12 +8,13 @@ class Entity
 public:
 	Entity(EntityID inID, World* inWorld) : mID(inID), mWorld(inWorld) { }
 
-	EntityID	GetID() const	{ return mID; }
-	bool		IsAlive() const { return mWorld->IsEntityAlive(mID); }
-	void		Kill()			{ mWorld->DestroyEntity(mID); }
+	EntityID	GetID() const		{ return mID; }
+	bool		IsAlive() const		{ return mWorld->IsEntityAlive(mID); }
+	void		Kill()				{ mWorld->DestroyEntity(mID); }
+	World*		GetWorld() const	{ return mWorld; }
 
 	template<typename T, typename ...Args>
-	void		AddComponent(Args&&... inArgs);
+	T*			AddComponent(Args&&... inArgs);
 
 	template<typename T>
 	void		RemoveComponent();
@@ -25,6 +26,9 @@ public:
 	template<typename T>
 	T*			GetComponent() const;
 
+	bool		operator==(const Entity& inRHS) const { return mID == inRHS.mID && mWorld == inRHS.mWorld; }
+	bool		operator!=(const Entity& inRHS) const { return !(*this == inRHS); }
+
 private:
 	EntityID	mID;
 	World*		mWorld;
@@ -32,9 +36,10 @@ private:
 
 
 template<typename T, typename ...Args>
-void Entity::AddComponent(Args&&... inArgs)
+T* Entity::AddComponent(Args&&... inArgs)
 {
 	mWorld->AddComponent<T>(mID, std::forward<Args>(inArgs)...);
+	return GetComponent<T>();
 }
 
 template<typename T>
