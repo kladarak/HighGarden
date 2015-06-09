@@ -127,6 +127,7 @@ void FixedBlockSizeMemPool<T>::EnsureCapacity(uint32_t inBlockIndex)
 			{
 				T* oldObject = static_cast<T*>( gGetBlock<T>(oldMemPtr, i, oldAllocCount) );
 				Alloc(i, std::move(*oldObject));
+				oldObject->~T();
 			}
 		}
 
