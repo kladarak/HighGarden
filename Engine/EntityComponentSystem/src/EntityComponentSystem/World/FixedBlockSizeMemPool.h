@@ -12,124 +12,113 @@
 	It may perform reallocation underneath, so never hold onto 
 	pointers to memory allocated grabbed from this.
 */
-template<typename T>
+
 class FixedBlockSizeMemPool
 {
+private:
+	struct ObjectMemoryMover
+	{
+		void (*mMoveConstructor)(void*, void*);
+		void (*mCopyConstructor)(void*, void*);
+		void (*mDestructor)(void*);
+	};
+
+	template<typename T>
+	static inline void sObjectMoveConstructorWrapper(void* inObjectTo, void* inObjectFrom)
+	{
+		T* objectFrom = static_cast<T*>(inObjectFrom);
+		new (inObjectTo) T( std::move( *objectFrom ) );
+	}
+
+	template<typename T>
+	static inline void sObjectCopyConstructorWrapper(void* inObjectTo, void* inObjectFrom)
+	{
+		const T* objectFrom = static_cast<const T*>(inObjectFrom);
+		new (inObjectTo) T( *objectFrom );
+	}
+
+	template<typename T>
+	static inline void sObjectDestructorWrapper(void* inObject)
+	{
+		static_cast<T*>(inObject)->~T();
+	}
+
+	template <typename T>
+	static ObjectMemoryMover sCreateObjectMover()
+	{
+		ObjectMemoryMover mover;
+		mover.mMoveConstructor	= &sObjectMoveConstructorWrapper<T>;
+		mover.mCopyConstructor	= &sObjectCopyConstructorWrapper<T>;
+		mover.mDestructor		= &sObjectDestructorWrapper<T>;
+		return mover;
+	}
+
 public:
+
 	FixedBlockSizeMemPool();
+	FixedBlockSizeMemPool(FixedBlockSizeMemPool&& inRHS);
+	FixedBlockSizeMemPool(const FixedBlockSizeMemPool& inRHS);
 	~FixedBlockSizeMemPool();
 
-	uint32_t	GetCapacity() const							{ return mNumBlocksAllocated; }
-	bool		IsAllocated(uint32_t inBlockIndex) const	{ return mUsedBlocks.Get(inBlockIndex); }
-	
-	template<typename ...Args>
-	void		Alloc(uint32_t inBlockIndex, Args&&... inArgs);
+	template<typename T>
+	void				Init();
+	bool				IsInitialised() const						{ return nullptr != mObjectMover.mMoveConstructor; }
 
-	void		Dealloc(uint32_t inBlockIndex);
+	uint32_t			GetCapacity() const							{ return mNumBlocksAllocated; }
+	bool				IsAllocated(uint32_t inBlockIndex) const	{ return mUsedBlocks.Get(inBlockIndex); }
 	
-	T*			Get(uint32_t inBlockIndex) const;
+	template<typename T, typename ...Args>
+	T*					Alloc(uint32_t inBlockIndex, Args&&... inArgs);
+
+	void				Dealloc(uint32_t inBlockIndex);
+	
+	template<typename T>
+	T*					Get(uint32_t inBlockIndex) const;
 
 private:
-	uint32_t	GetBlockSize() const						{ return sizeof(T); }
-	T*			GetBlock(uint32_t inBlockIndex);
-	T*			GetBlock(uint32_t inBlockIndex) const;
-	
-	void		EnsureCapacity(uint32_t inBlockIndex);
+	void				EnsureCapacity(uint32_t inBlockIndex);
+	static void*		sGetBlock(void* inMemory, uint32_t inBlockIndex, uint32_t inBlockSize);
 
-	BitField	mUsedBlocks;
-	uint32_t	mNumBlocksAllocated;
-	void*		mMemory;
+	void*				GetBlock(uint32_t inBlockIndex);
+	void*				GetBlock(uint32_t inBlockIndex) const;
+
+	ObjectMemoryMover	mObjectMover;
+	BitField			mUsedBlocks;
+
+	uint32_t			mNumBlocksAllocated;
+	uint32_t			mBlockSize; 
+	void*				mMemory;
 
 };
 
 template<typename T>
-FixedBlockSizeMemPool<T>::FixedBlockSizeMemPool()
-	: mNumBlocksAllocated(0)
-	, mMemory(nullptr)
+void FixedBlockSizeMemPool::Init()
 {
-}
-	
-template<typename T>
-FixedBlockSizeMemPool<T>::~FixedBlockSizeMemPool()
-{
-	for (uint32_t i = 0; i < mUsedBlocks.NumBits(); ++i)
-	{
-		if (mUsedBlocks.Get(i))
-		{
-			Dealloc(i);
-		}
-	}
-
-	free(mMemory);
+	mBlockSize		= sizeof(T);
+	mObjectMover	= sCreateObjectMover<T>();
 }
 
-template<typename T>
-template<typename ...Args>
-void FixedBlockSizeMemPool<T>::Alloc(uint32_t inBlockIndex, Args&&... inArgs)
+template<typename T, typename ...Args>
+T* FixedBlockSizeMemPool::Alloc(uint32_t inBlockIndex, Args&&... inArgs)
 {
 	assert(mUsedBlocks.Get(inBlockIndex) == false);	
-	new (GetBlock(inBlockIndex)) T( std::forward<Args>(inArgs)... );
+	assert(mBlockSize == sizeof(T));
+	assert(IsInitialised());
+	// assert destructor matches what we expect...
+
+	void* block = GetBlock(inBlockIndex);
+	new (block) T( std::forward<Args>(inArgs)... );
 	mUsedBlocks.Set(inBlockIndex);
+	return static_cast<T*>(block);
 }
 
 template<typename T>
-void FixedBlockSizeMemPool<T>::Dealloc(uint32_t inBlockIndex)
-{
-	Get(inBlockIndex)->~T();
-	mUsedBlocks.Clear(inBlockIndex);
-}
-
-template<typename T>
-T* FixedBlockSizeMemPool<T>::Get(uint32_t inBlockIndex) const
+T* FixedBlockSizeMemPool::Get(uint32_t inBlockIndex) const
 {
 	assert(mUsedBlocks.Get(inBlockIndex));
-	return GetBlock(inBlockIndex);
-}
+	//assert(mBlockSize == sizeof(T));
+	// assert destructor matches what we expect...
 
-template<typename T>
-inline void* gGetBlock(void* inMemory, uint32_t inBlockIndex, uint32_t inCapacity)
-{
-	assert(inBlockIndex < inCapacity);
-	return (void*) ((unsigned char*) inMemory + (inBlockIndex * sizeof(T)));
-}
-
-template<typename T>
-T* FixedBlockSizeMemPool<T>::GetBlock(uint32_t inBlockIndex)
-{
-	EnsureCapacity(inBlockIndex);
-	return static_cast<T*>( gGetBlock<T>(mMemory, inBlockIndex, mNumBlocksAllocated) );
-}
-
-template<typename T>
-T* FixedBlockSizeMemPool<T>::GetBlock(uint32_t inBlockIndex) const
-{
-	return static_cast<T*>( gGetBlock<T>(mMemory, inBlockIndex, mNumBlocksAllocated) );
-}
-
-template<typename T>
-void FixedBlockSizeMemPool<T>::EnsureCapacity(uint32_t inBlockIndex)
-{
-	if (inBlockIndex >= mNumBlocksAllocated)
-	{
-		// Reserve more space, for at least this block, with optimisation for possible further allocs
-		// (optimisation is not measured or based on anything other than a rough guess at what might be reasonable).
-
-		uint32_t	oldAllocCount	= mNumBlocksAllocated;
-		void*		oldMemPtr		= mMemory;
-
-		mNumBlocksAllocated = (inBlockIndex + 1) + (mNumBlocksAllocated / 2);
-		mMemory				= malloc( mNumBlocksAllocated * GetBlockSize() );
-		assert(mMemory);
-	
-		for (uint32_t i = 0; i < oldAllocCount; ++i)
-		{
-			if (mUsedBlocks.Get(i))
-			{
-				T* oldObject = static_cast<T*>( gGetBlock<T>(oldMemPtr, i, oldAllocCount) );
-				Alloc(i, std::move(*oldObject));
-			}
-		}
-
-		free(oldMemPtr);
-	}
+	void* block = GetBlock(inBlockIndex);
+	return static_cast<T*>(block);
 }

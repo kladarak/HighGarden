@@ -37,6 +37,9 @@
     <ClInclude Include="src\Core\Messaging\MessageBroadcastTests.h">
       <Filter>Source Files\Messaging</Filter>
     </ClInclude>
+    <ClInclude Include="src\Core\Debug\Performance.h">
+      <Filter>Source Files\Debug</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Core\Containers\BitField.cpp">

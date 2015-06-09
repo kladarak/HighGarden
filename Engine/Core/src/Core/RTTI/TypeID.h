@@ -5,6 +5,7 @@ typedef const void* TypeID;
 template<typename T>
 struct TypeIDFactory
 {
+	TypeIDFactory() { } // constructor prevents compiler from generating multiple kIDs.
 	static TypeID GetID() { static const TypeIDFactory<T> kID; return &kID; }
 };
 

@@ -9,14 +9,14 @@ class Message1
 {
 public:
 	Message1(int inID) : mID(inID) { }
-	const int mID;
+	int mID;
 };
 
 class Message2
 {
 public:
 	Message2(const std::string& inID) : mID(inID) { }
-	const std::string mID;
+	std::string mID;
 };
 
 class HandlerA

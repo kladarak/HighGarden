@@ -16,12 +16,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\EntityComponentSystem\World\ComponentMemPool.h">
-      <Filter>Source Files\World</Filter>
-    </ClInclude>
-    <ClInclude Include="src\EntityComponentSystem\World\ComponentsStorage.h">
-      <Filter>Source Files\World</Filter>
-    </ClInclude>
     <ClInclude Include="src\EntityComponentSystem\World\ComponentTypeID.h">
       <Filter>Source Files\World</Filter>
     </ClInclude>
@@ -32,9 +26,6 @@
       <Filter>Source Files\World</Filter>
     </ClInclude>
     <ClInclude Include="src\EntityComponentSystem\World\EntityTypedef.h">
-      <Filter>Source Files\World</Filter>
-    </ClInclude>
-    <ClInclude Include="src\EntityComponentSystem\World\FixedBlockSizeMemPool.h">
       <Filter>Source Files\World</Filter>
     </ClInclude>
     <ClInclude Include="src\EntityComponentSystem\World\System.h">
@@ -52,11 +43,14 @@
     <ClInclude Include="src\EntityComponentSystem\Tests\EntityComponentSystemTests.h">
       <Filter>Source Files\Tests</Filter>
     </ClInclude>
+    <ClInclude Include="src\EntityComponentSystem\World\ComponentsStorage.h">
+      <Filter>Source Files\World</Filter>
+    </ClInclude>
+    <ClInclude Include="src\EntityComponentSystem\World\FixedBlockSizeMemPool.h">
+      <Filter>Source Files\World</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\EntityComponentSystem\World\ComponentsStorage.cpp">
-      <Filter>Source Files\World</Filter>
-    </ClCompile>
     <ClCompile Include="src\EntityComponentSystem\World\EntityFilter.cpp">
       <Filter>Source Files\World</Filter>
     </ClCompile>
@@ -68,6 +62,12 @@
     </ClCompile>
     <ClCompile Include="src\EntityComponentSystem\Tests\EntityComponentSystemTests.cpp">
       <Filter>Source Files\Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="src\EntityComponentSystem\World\ComponentsStorage.cpp">
+      <Filter>Source Files\World</Filter>
+    </ClCompile>
+    <ClCompile Include="src\EntityComponentSystem\World\FixedBlockSizeMemPool.cpp">
+      <Filter>Source Files\World</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

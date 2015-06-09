@@ -17,8 +17,10 @@ class PositionComponent
 {
 public:
 	PositionComponent() { }
+	~PositionComponent() { }
 	PositionComponent(float inX, float inY, float inZ) : mVector(inX, inY, inZ) { }
 	PositionComponent(const Vector3& inVector) : mVector(inVector) { }
+	PositionComponent(Vector3&& inVector) : mVector(inVector) { }
 	
 	const Vector3& GetPos() const { return mVector; }
 	
@@ -31,8 +33,10 @@ class VelocityComponent
 {
 public:
 	VelocityComponent() { }
+	~VelocityComponent() { }
 	VelocityComponent(float inX, float inY, float inZ) : mVector(inX, inY, inZ) { }
 	VelocityComponent(const Vector3& inVector) : mVector(inVector) { }
+	VelocityComponent(Vector3&& inVector) : mVector(inVector) { }
 	
 	const Vector3& GetVelocity() const { return mVector; }
 	

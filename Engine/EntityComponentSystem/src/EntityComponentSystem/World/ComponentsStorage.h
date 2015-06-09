@@ -1,7 +1,8 @@
 #pragma once
 
 #include "ComponentTypeID.h"
-#include "ComponentMemPool.h"
+#include "EntityTypedef.h"
+#include "FixedBlockSizeMemPool.h"
 
 class ComponentsStorage
 {
@@ -35,15 +36,14 @@ private:
 	bool								HasPool(ComponentTypeID inTypeID) const;
 
 	template<typename T>
-	ComponentMemPool<T>&				GetPool();
-	ComponentMemPoolBase&				GetPool(ComponentTypeID inTypeID);
+	FixedBlockSizeMemPool&				GetPool();
+	FixedBlockSizeMemPool&				GetPool(ComponentTypeID inTypeID);
 
 	template<typename T>
-	const ComponentMemPool<T>&			GetPool() const;
-	const ComponentMemPoolBase&			GetPool(ComponentTypeID inTypeID) const;
+	const FixedBlockSizeMemPool&		GetPool() const;
+	const FixedBlockSizeMemPool&		GetPool(ComponentTypeID inTypeID) const;
 
-
-	std::vector<ComponentMemPoolBase*>	mMemPools;
+	std::vector<FixedBlockSizeMemPool>	mMemPools;
 };
 	
 template<typename T, typename ...Args>
@@ -54,7 +54,7 @@ void ComponentsStorage::Alloc(EntityID inID, Args&&... inArgs)
 	EnsureCapacity( gGetComponentTypeID<T>() );
 	EnsureMemPoolIsInitialised<T>();
 
-	GetPool<T>().Alloc(inID, std::forward<Args>(inArgs)...);
+	GetPool<T>().Alloc<T, Args...>(inID, std::forward<Args>(inArgs)...);
 }
 
 template<typename T>
@@ -73,7 +73,7 @@ bool ComponentsStorage::Has(EntityID inID) const
 template<typename T>
 T* ComponentsStorage::Get(EntityID inID) const
 {
-	return Has<T>(inID) ? GetPool<T>().Get(inID) : nullptr;
+	return Has<T>(inID) ? GetPool<T>().Get<T>(inID) : nullptr;
 }
 	
 template<typename T>
@@ -82,22 +82,22 @@ void ComponentsStorage::EnsureMemPoolIsInitialised()
 	auto typeID = gGetComponentTypeID<T>();
 	assert(mMemPools.size() > typeID);
 
-	if (nullptr == mMemPools[typeID])
+	if (!mMemPools[typeID].IsInitialised())
 	{
-		mMemPools[typeID] = new ComponentMemPool<T>();
+		mMemPools[typeID].Init<T>();
 	}
 }
 
 template<typename T>
-ComponentMemPool<T>& ComponentsStorage::GetPool()
+FixedBlockSizeMemPool& ComponentsStorage::GetPool()
 {
-	return *static_cast< ComponentMemPool<T>* >( &GetPool( gGetComponentTypeID<T>() ) );
+	return GetPool( gGetComponentTypeID<T>() );
 }
 
 template<typename T>
-const ComponentMemPool<T>& ComponentsStorage::GetPool() const
+const FixedBlockSizeMemPool& ComponentsStorage::GetPool() const
 {
-	return *static_cast< const ComponentMemPool<T>* >( &GetPool( gGetComponentTypeID<T>() ) );
+	return GetPool( gGetComponentTypeID<T>() );
 }
 
 template<typename T>

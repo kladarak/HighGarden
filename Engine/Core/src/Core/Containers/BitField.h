@@ -6,6 +6,10 @@
 class BitField
 {
 public:
+	BitField()						: mBits()							{ }
+	BitField(const BitField& inRHS) : mBits( inRHS.mBits )				{ }
+	BitField(BitField&& inRHS)		: mBits( std::move(inRHS.mBits) )	{ }
+
 	void		Set(uint32_t inBit);
 	void		Clear(uint32_t inBit);
 
@@ -19,7 +23,7 @@ private:
 	{
 		Bit (uint32_t inBit)
 			: mIndex	(inBit / BITS_PER_ELEM)
-			, mBitMask	(1 << (inBit % BITS_PER_ELEM))
+			, mBitMask	(1u << (inBit % BITS_PER_ELEM))
 		{ 
 		}
 

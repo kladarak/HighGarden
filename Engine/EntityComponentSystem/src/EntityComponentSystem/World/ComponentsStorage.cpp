@@ -2,49 +2,46 @@
 
 ComponentsStorage::~ComponentsStorage()
 {
-	for (auto pool : mMemPools)
-	{
-		delete pool;
-	}
 }
 
 void ComponentsStorage::EnsureCapacity(ComponentTypeID inTypeID)
 {
 	if (inTypeID >= mMemPools.size())
 	{
-		mMemPools.resize(inTypeID+1, nullptr);
+		mMemPools.resize(inTypeID+1);
 	}
 }
 
 void ComponentsStorage::RemoveAllComponents(EntityID inID)
 {
-	for (auto pool : mMemPools)
+	for (auto& pool : mMemPools)
 	{
-		if (nullptr != pool && pool->Has(inID))
+		if (pool.IsAllocated(inID))
 		{
-			pool->Dealloc(inID);
+			pool.Dealloc(inID);
 		}
 	}
 }
 
 bool ComponentsStorage::Has(EntityID inID, ComponentTypeID inTypeID) const
 {
-	return HasPool(inTypeID) && GetPool(inTypeID).Has(inID);
+	return HasPool(inTypeID) && GetPool(inTypeID).IsAllocated(inID);
 }
 
 bool ComponentsStorage::HasPool(ComponentTypeID inTypeID) const
 {
-	return (mMemPools.size() > inTypeID) && (nullptr != mMemPools[inTypeID]);
+	return (mMemPools.size() > inTypeID) 
+			&& GetPool(inTypeID).IsInitialised(); // THIS part is surprisingly slow?
 }
 
-ComponentMemPoolBase& ComponentsStorage::GetPool(ComponentTypeID inTypeID)
+FixedBlockSizeMemPool& ComponentsStorage::GetPool(ComponentTypeID inTypeID)
 {
 	auto& pool = static_cast< const ComponentsStorage* >(this)->GetPool(inTypeID);
-	return *const_cast< ComponentMemPoolBase* >(&pool);
+	return *const_cast< FixedBlockSizeMemPool* >(&pool);
 }
 
-const ComponentMemPoolBase&	ComponentsStorage::GetPool(ComponentTypeID inTypeID) const
+const FixedBlockSizeMemPool& ComponentsStorage::GetPool(ComponentTypeID inTypeID) const
 {
-	assert(inTypeID);
-	return *mMemPools[inTypeID];
+	assert(inTypeID < mMemPools.size());
+	return mMemPools[inTypeID];
 }
