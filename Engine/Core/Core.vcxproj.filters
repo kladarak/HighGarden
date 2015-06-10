@@ -17,6 +17,9 @@
     <Filter Include="Source Files\RTTI">
       <UniqueIdentifier>{6da5fe99-bb1d-4016-9dbc-3ba420a3382b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Time">
+      <UniqueIdentifier>{5ebfffb8-4034-4bf9-b72e-08b4c5c70bca}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Core\Debug\Assert.h">
@@ -40,6 +43,9 @@
     <ClInclude Include="src\Core\Debug\Performance.h">
       <Filter>Source Files\Debug</Filter>
     </ClInclude>
+    <ClInclude Include="src\Core\Time\Time.h">
+      <Filter>Source Files\Time</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Core\Containers\BitField.cpp">
@@ -47,6 +53,9 @@
     </ClCompile>
     <ClCompile Include="src\Core\Messaging\MessageBroadcastTests.cpp">
       <Filter>Source Files\Messaging</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Core\Time\Time.cpp">
+      <Filter>Source Files\Time</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
