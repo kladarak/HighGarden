@@ -63,3 +63,20 @@ void World::ForEachEntity(const TFunctor& inFunctor)
 		}
 	}
 }
+
+template<typename TFilterFunctor>
+std::vector<Entity> World::GetEntities(const TFilterFunctor& inFilter)
+{
+	std::vector<Entity> out;
+
+	for (uint32_t i = 0; i < mUsedIDs.NumBits(); ++i)
+	{
+		Entity entity(i, this);
+		if (mUsedIDs.Get(i) && inFilter(entity))
+		{
+			out.push_back(entity);
+		}
+	}
+
+	return out;
+}

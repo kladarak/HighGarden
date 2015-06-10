@@ -9,6 +9,7 @@
 #include "ComponentsStorage.h"
 
 class World;
+class EntityFilter;
 
 class Entity
 {
@@ -51,6 +52,7 @@ public:
 	Entity					CreateEntity();
 	bool					IsEntityAlive(EntityID inID) const;
 	void					DestroyEntity(EntityID inID);
+	void					FlushDestroyedEntities();
 
 	template<typename T, typename ...Args>
 	T*						AddComponent(EntityID inID, Args&&... inArgs);
@@ -68,9 +70,15 @@ public:
 	template<typename TFunctor>
 	void					ForEachEntity(const TFunctor& inFunctor);
 
+	template<typename TFilterFunctor>
+	std::vector<Entity>		GetEntities(const TFilterFunctor& inFilter); 
+
+	std::vector<Entity>		GetEntities(const EntityFilter& inFilter);
+
 private:
 	EntityID				mNextID;
 	std::vector<EntityID>	mUnusedIDs;
+	std::vector<EntityID>	mQueuedIDsForDestruction;
 	BitField				mUsedIDs;
 
 	ComponentsStorage		mComponentStorage;
