@@ -59,9 +59,19 @@ bool World::IsEntityAlive(EntityID inID) const
 void World::DestroyEntity(EntityID inID)
 {
 	assert( IsEntityAlive(inID) );
-	mComponentStorage.RemoveAllComponents(inID);
-	mUnusedIDs.push_back(inID);
 	mUsedIDs.Clear(inID);
+	mQueuedIDsForDestruction.push_back(inID);
+}
+
+void World::FlushDestroyedEntities()
+{
+	for (EntityID id : mQueuedIDsForDestruction)
+	{
+		mComponentStorage.RemoveAllComponents(id);
+		mUnusedIDs.push_back(id);
+	}
+
+	mQueuedIDsForDestruction.clear();
 }
 
 bool World::HasComponent(EntityID inID, ComponentTypeID inTypeID) const

@@ -52,6 +52,7 @@ public:
 	Entity					CreateEntity();
 	bool					IsEntityAlive(EntityID inID) const;
 	void					DestroyEntity(EntityID inID);
+	void					FlushDestroyedEntities();
 
 	template<typename T, typename ...Args>
 	T*						AddComponent(EntityID inID, Args&&... inArgs);
@@ -77,6 +78,7 @@ public:
 private:
 	EntityID				mNextID;
 	std::vector<EntityID>	mUnusedIDs;
+	std::vector<EntityID>	mQueuedIDsForDestruction;
 	BitField				mUsedIDs;
 
 	ComponentsStorage		mComponentStorage;
