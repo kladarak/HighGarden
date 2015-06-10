@@ -1,7 +1,7 @@
 #include "World.h"
 
 #include "Assert.h"
-
+#include "EntityFilter.h"
 
 bool Entity::IsAlive() const
 {
@@ -67,4 +67,9 @@ void World::DestroyEntity(EntityID inID)
 bool World::HasComponent(EntityID inID, ComponentTypeID inTypeID) const
 {
 	return mComponentStorage.Has(inID, inTypeID);
+}
+
+std::vector<Entity> World::GetEntities(const EntityFilter& inFilter)
+{
+	return GetEntities( [&] (const Entity& inEntity) { return inFilter.PassesFilter(inEntity); } );
 }

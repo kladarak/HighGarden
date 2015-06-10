@@ -9,6 +9,7 @@
 #include "ComponentsStorage.h"
 
 class World;
+class EntityFilter;
 
 class Entity
 {
@@ -67,6 +68,11 @@ public:
 
 	template<typename TFunctor>
 	void					ForEachEntity(const TFunctor& inFunctor);
+
+	template<typename TFilterFunctor>
+	std::vector<Entity>		GetEntities(const TFilterFunctor& inFilter); 
+
+	std::vector<Entity>		GetEntities(const EntityFilter& inFilter);
 
 private:
 	EntityID				mNextID;

@@ -7,13 +7,12 @@
 class World;
 class Entity;
 
+// TODO: Turn this into basically a tuple, using a variadic template to list required components.
 class EntityFilter
 {
 public:
-	EntityFilter();
-
 	template<typename T>
-	EntityFilter&		MustHave() { mComponentTypes.push_back( T::sGetTypeID() ); return *this; }
+	EntityFilter&		MustHave() { mMustHaveComponents.push_back( gGetComponentTypeID<T>() ); return *this; }
 
 	bool				PassesFilter(const Entity& inEntity) const;
 
