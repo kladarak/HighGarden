@@ -11,6 +11,7 @@ class MessageBroadcaster;
 class MessageRegistrationHandle
 {
 public:
+	MessageRegistrationHandle();
 	MessageRegistrationHandle(MessageBroadcaster* inBroadcaster, TypeID	inTypeID, int inCallbackID);
 	void				Unregister();
 

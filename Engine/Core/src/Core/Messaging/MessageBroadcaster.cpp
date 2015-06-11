@@ -1,6 +1,13 @@
 #include "MessageBroadcaster.h"
 
 
+MessageRegistrationHandle::MessageRegistrationHandle()
+	: mBroadcaster	(nullptr)
+	, mTypeID		(nullptr)
+	, mCallbackID	(0)
+{
+}
+
 MessageRegistrationHandle::MessageRegistrationHandle(MessageBroadcaster* inBroadcaster, TypeID inTypeID, int inCallbackID)
 	: mBroadcaster	(inBroadcaster)
 	, mTypeID		(inTypeID)
