@@ -22,8 +22,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Core\Containers\BitField.cpp" />
+    <ClCompile Include="src\Core\Messaging\MessageBroadcaster.cpp" />
     <ClCompile Include="src\Core\Messaging\MessageBroadcastTests.cpp" />
     <ClCompile Include="src\Core\Time\Time.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\Core\Messaging\MessageBroadcaster.inl" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{A487EDB4-9AED-45A2-925E-E96F22E4FACB}</ProjectGuid>

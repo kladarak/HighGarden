@@ -57,5 +57,13 @@
     <ClCompile Include="src\Core\Time\Time.cpp">
       <Filter>Source Files\Time</Filter>
     </ClCompile>
+    <ClCompile Include="src\Core\Messaging\MessageBroadcaster.cpp">
+      <Filter>Source Files\Messaging</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\Core\Messaging\MessageBroadcaster.inl">
+      <Filter>Source Files\Messaging</Filter>
+    </None>
   </ItemGroup>
 </Project>

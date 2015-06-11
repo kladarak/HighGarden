@@ -38,14 +38,14 @@ void DoTests()
 	HandlerA handlerA;
 	HandlerB handlerB;
 
-	broadcaster.Register<Message1, HandlerA, &HandlerA::Handle>(&handlerA);
-	broadcaster.Register<Message1, HandlerB, &HandlerB::Handle>(&handlerB);
-	broadcaster.Register<Message2, HandlerB, &HandlerB::Handle>(&handlerB);
+	broadcaster.Register<Message1>( [&] (const Message1& inMessage) { handlerA.Handle(inMessage); } );
+	broadcaster.Register<Message2>( [&] (const Message2& inMessage) { handlerB.Handle(inMessage); } );
+	MessageRegistrationHandle regHandler = broadcaster.Register<Message1>( [&] (const Message1& inMessage) { handlerB.Handle(inMessage); } );
 
 	broadcaster.Broadcast( Message1(42) );
 	broadcaster.Broadcast( Message2("Yo") );
 
-	broadcaster.Unregister<Message1>(&handlerB);
+	regHandler.Unregister();
 	
 	broadcaster.Broadcast( Message1(69) );
 }

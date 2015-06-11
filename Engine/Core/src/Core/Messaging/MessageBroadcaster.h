@@ -2,84 +2,72 @@
 
 #include <vector>
 #include <unordered_map>
+#include <functional>
 
 #include <Core/RTTI/TypeID.h>
+
+class MessageBroadcaster;
+
+class MessageRegistrationHandle
+{
+public:
+	MessageRegistrationHandle(MessageBroadcaster* inBroadcaster, TypeID	inTypeID, int inCallbackID);
+	void				Unregister();
+
+private:
+	MessageBroadcaster* mBroadcaster;
+	TypeID				mTypeID;
+	int					mCallbackID;
+};
 
 class MessageBroadcaster
 {
 private:
-	class MessageHandlerWrapper
+	class CalbackContainerBase
 	{
-	private:
-		template<typename THandler, typename TMessage, typename void (THandler::*THandlerFunc)(const TMessage&)>
-		static inline void TypeCastHandlerFunc(void* inHandler, const void* inMessage)
-		{
-			auto handler = static_cast<THandler*>(inHandler);
-			((*handler).*THandlerFunc)( *static_cast<const TMessage*>(inMessage) );
-		}
-		
-		typedef void (*HandlerFunction)(void*, const void*);
-		
-		HandlerFunction	mHandlerFunc;
-		void*			mHandler;
-
-		MessageHandlerWrapper(HandlerFunction inFunc, void* inHandler) : mHandlerFunc(inFunc), mHandler(inHandler) { }
-
 	public:
-		template<typename THandler, typename TMessage, typename void (THandler::*THandlerFunc)(const TMessage&)>
-		static MessageHandlerWrapper sCreate(THandler* inHandler)
-		{
-			return MessageHandlerWrapper( &TypeCastHandlerFunc<THandler, TMessage, THandlerFunc>, inHandler );
-		}
-		
-		template<typename TMessage>
-		void Handle(const TMessage* inMessage) const	{ mHandlerFunc(mHandler, inMessage); }
-
-		template<typename THandler>
-		bool operator==(THandler* inHandler) const		{ return mHandler == inHandler; }
-
-		template<typename THandler>
-		bool operator!=(THandler* inHandler) const		{ return !(*this == inHandler); }
+		virtual ~CalbackContainerBase() { }
+		virtual void Unregister(int inCallbackID) = 0;
 	};
-	
-	std::unordered_map< TypeID, std::vector<MessageHandlerWrapper> > mHandlers;
-
-public:
-
-	template<typename TMessage, typename THandler, typename void (THandler::*THandlerFunc)(const TMessage&)>
-	void Register(THandler* inHandler)
-	{
-		MessageHandlerWrapper wrapper = MessageHandlerWrapper::sCreate<THandler, TMessage, THandlerFunc>(inHandler);
-		mHandlers[ gGetTypeID<TMessage>() ].push_back( wrapper );
-	}
-
-	template<typename TMessage, typename THandler>
-	void Unregister(THandler* inHandler)
-	{
-		auto& handlers = mHandlers[ gGetTypeID<TMessage>() ];
-		for (auto iter = handlers.begin(); iter != handlers.end(); ++iter)
-		{
-			if ((*iter) == inHandler)
-			{
-				handlers.erase(iter);
-				break;
-			}
-		}
-	}
 
 	template<typename TMessage>
-	void Broadcast(const TMessage& inMessage) const
+	class CallbackContainer : public CalbackContainerBase
 	{
-		auto typeID			= gGetTypeID<TMessage>();
-		auto handlersIter	= mHandlers.find(typeID);
+	public:
+		typedef std::function<void (const TMessage&)> Functor;
 
-		if (handlersIter != mHandlers.end())
+		CallbackContainer() : mNextID(0) { }
+
+		int				Register(const Functor& inFunctor);
+		virtual void	Unregister(int inID);
+		void			Broadcast(const TMessage& inMessage) const;
+
+	private:
+		struct FunctorIDWrapper
 		{
-			auto& handlers = (*handlersIter).second;
-			for (auto& handler : handlers)
-			{
-				handler.Handle(&inMessage);
-			}
-		}
-	}
+			int		mID;
+			Functor mFunctor;
+
+			FunctorIDWrapper(int inID, const Functor& inFunctor);
+			void operator()(const TMessage& inMsg) const;
+		};
+
+		std::vector<FunctorIDWrapper>	mFunctors;
+		int								mNextID;
+	};
+	
+	std::unordered_map< TypeID, CalbackContainerBase* > mHandlers;
+
+public:
+	~MessageBroadcaster();
+
+	template<typename TMessage>
+	MessageRegistrationHandle	Register(const std::function<void (const TMessage&)>& inFunctor);
+
+	void						Unregister(TypeID inMessageID, int inCallbackID);
+
+	template<typename TMessage>
+	void						Broadcast(const TMessage& inMessage) const;
 };
+
+#include "MessageBroadcaster.inl"
