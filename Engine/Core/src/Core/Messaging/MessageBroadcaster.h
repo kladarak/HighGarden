@@ -39,9 +39,9 @@ private:
 
 		CallbackContainer() : mNextID(0) { }
 
-		int				Register(const Functor& inFunctor);
-		virtual void	Unregister(int inID);
-		void			Broadcast(const TMessage& inMessage) const;
+		int					Register(const Functor& inFunctor);
+		inline virtual void	Unregister(int inID); // "inline" fixes "unreferenced local function has been removed" warning.
+		void				Broadcast(const TMessage& inMessage) const;
 
 	private:
 		struct FunctorIDWrapper
