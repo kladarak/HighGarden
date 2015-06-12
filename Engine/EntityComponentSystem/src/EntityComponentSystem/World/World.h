@@ -14,10 +14,12 @@ class EntityFilter;
 class Entity
 {
 public:
-	Entity(EntityID inID, World* inWorld) : mID(inID), mWorld(inWorld) { }
+	Entity()								: mID(0), mWorld(nullptr)		{ }
+	Entity(EntityID inID, World* inWorld)	: mID(inID), mWorld(inWorld)	{ }
 
 	EntityID	GetID() const		{ return mID; }
 	World*		GetWorld() const	{ return mWorld; }
+	bool		IsValid() const		{ return nullptr != mWorld; }
 	bool		IsAlive() const;
 	void		Kill();
 
