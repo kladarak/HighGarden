@@ -60,6 +60,8 @@ private:
 	std::unordered_map< TypeID, CalbackContainerBase* > mHandlers;
 
 public:
+	MessageBroadcaster() { }
+	MessageBroadcaster(MessageBroadcaster&& inRHS) : mHandlers(std::move(inRHS.mHandlers)) { }
 	~MessageBroadcaster();
 
 	template<typename TMessage>
