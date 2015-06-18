@@ -77,6 +77,8 @@ public:
 
 	std::vector<Entity>		GetEntities(const EntityFilter& inFilter);
 
+	std::vector<Entity>		GetEntitiesQueuedForDestruction();
+
 private:
 	EntityID				mNextID;
 	std::vector<EntityID>	mUnusedIDs;

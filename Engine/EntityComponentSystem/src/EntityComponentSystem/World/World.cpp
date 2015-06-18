@@ -1,5 +1,7 @@
 #include "World.h"
 
+#include <algorithm>
+
 #include "Assert.h"
 #include "EntityFilter.h"
 
@@ -82,4 +84,18 @@ bool World::HasComponent(EntityID inID, ComponentTypeID inTypeID) const
 std::vector<Entity> World::GetEntities(const EntityFilter& inFilter)
 {
 	return GetEntities( [&] (const Entity& inEntity) { return inFilter.PassesFilter(inEntity); } );
+}
+
+std::vector<Entity>	World::GetEntitiesQueuedForDestruction()
+{
+	std::vector<Entity> out;
+
+	for (EntityID id : mQueuedIDsForDestruction)
+	{
+		out.push_back( Entity(id, this) );
+	}
+
+	std::sort(out.begin(), out.end(), [] (const Entity& inLHS, const Entity& inRHS) { return inLHS.GetID() < inRHS.GetID(); } );
+
+	return out;
 }
