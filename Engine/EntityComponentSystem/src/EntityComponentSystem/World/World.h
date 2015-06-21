@@ -38,6 +38,8 @@ public:
 
 	bool		operator==(const Entity& inRHS) const { return mID == inRHS.mID && mWorld == inRHS.mWorld; }
 	bool		operator!=(const Entity& inRHS) const { return !(*this == inRHS); }
+	bool		operator< (const Entity& inRHS) const { return mID < inRHS.GetID(); }
+	bool		operator> (const Entity& inRHS) const { return mID > inRHS.GetID(); }
 
 private:
 	EntityID	mID;
